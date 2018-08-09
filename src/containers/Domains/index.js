@@ -10,6 +10,7 @@ class Domains extends Component {
       <LayoutContentWrapper>
         <LayoutContent>
           <h1>Domains</h1>
+
           <DomainsTable/>
         </LayoutContent>
       </LayoutContentWrapper>

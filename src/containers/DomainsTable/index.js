@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Table from '../../components/uielements/table';
+import Tag from '../../components/uielements/tag';
 
 const resp = {
   "data": [
@@ -331,8 +332,8 @@ resp.data.map((item, index) => (
   newData.push({
     key: index,
     domain: item.attributes.name,
-    malware_agent: item.attributes.is_verified ? 'yes' : 'no',
-    ftp_credentials: item.attributes.is_verified ? 'yes' : 'no',
+    malware_agent: item.attributes.is_verified ? <Tag color="#87d068">PRESENT / VERIFIED</Tag> : <Tag>BLANK</Tag>,
+    ftp_credentials: item.attributes.is_verified ? <Tag color="#87d068">PRESENT / VERIFIED</Tag> : <Tag>BLANK</Tag>,
     actions: 'action type'
   })
 ));
@@ -370,21 +371,15 @@ class DomainsTable extends Component {
     }, {
       title: 'Malware Agent',
       dataIndex: 'malware_agent',
-      key: 'malware_agent',
-      sorter: (a, b) => a.malware_agent - b.malware_agent,
-      sortOrder: sortedInfo.columnKey === 'malware_agent' && sortedInfo.order,
+      key: 'malware_agent'
     }, {
       title: 'FTP Credentials',
       dataIndex: 'ftp_credentials',
       key: 'ftp_credentials',
-      sorter: (a, b) => a.ftp_credentials.length - b.ftp_credentials.length,
-      sortOrder: sortedInfo.columnKey === 'ftp_credentials' && sortedInfo.order,
     }, {
       title: 'Actions',
       dataIndex: 'actions',
       key: 'actions',
-      sorter: (a, b) => a.actions.length - b.actions.length,
-      sortOrder: sortedInfo.columnKey === 'actions' && sortedInfo.order,
     }];
 
     return (
