@@ -1,85 +1,6 @@
 import React, {Component} from 'react';
 import Table from '../../components/uielements/table';
 
-const data = [{
-  key: '1',
-  domain: 'John Brown',
-  malware_agent: 32,
-  ftp_credentials: 'New York No. 1 Lake Park',
-  actions: 'New York No. 1 Lake Park',
-}, {
-  key: '2',
-  domain: 'Jim Green',
-  malware_agent: 42,
-  ftp_credentials: 'London No. 1 Lake Park',
-  actions: 'London No. 1 Lake Park',
-}, {
-  key: '3',
-  domain: 'Joe Black',
-  malware_agent: 32,
-  ftp_credentials: 'Sidney No. 1 Lake Park',
-  actions: 'Sidney No. 1 Lake Park',
-}, {
-  key: '4',
-  domain: 'Jim Red',
-  malware_agent: 32,
-  ftp_credentials: 'London No. 2 Lake Park',
-  actions: 'London No. 2 Lake Park',
-}];
-
-class DomainsTable extends Component {
-  state = {
-    sortedInfo: null,
-  };
-
-  handleChange = (pagination, filters, sorter) => {
-    console.log('Various parameters', pagination, filters, sorter);
-    this.setState({
-      sortedInfo: sorter,
-    });
-  }
-
-  render() {
-    let { sortedInfo } = this.state;
-    sortedInfo = sortedInfo || {};
-
-    const columns = [{
-      title: 'Domain',
-      dataIndex: 'domain',
-      key: 'domain',
-      sorter: (a, b) => a.domain.length - b.domain.length,
-      sortOrder: sortedInfo.columnKey === 'domain' && sortedInfo.order,
-    }, {
-      title: 'Malware Agent',
-      dataIndex: 'malware_agent',
-      key: 'malware_agent',
-      sorter: (a, b) => a.malware_agent - b.malware_agent,
-      sortOrder: sortedInfo.columnKey === 'malware_agent' && sortedInfo.order,
-    }, {
-      title: 'FTP Credentials',
-      dataIndex: 'ftp_credentials',
-      key: 'ftp_credentials',
-      sorter: (a, b) => a.ftp_credentials.length - b.ftp_credentials.length,
-      sortOrder: sortedInfo.columnKey === 'ftp_credentials' && sortedInfo.order,
-    }, {
-      title: 'Actions',
-      dataIndex: 'actions',
-      key: 'actions',
-      sorter: (a, b) => a.actions.length - b.actions.length,
-      sortOrder: sortedInfo.columnKey === 'actions' && sortedInfo.order,
-    }];
-
-    return (
-      <div>
-        <Table columns={columns} dataSource={data} onChange={this.handleChange} />
-      </div>
-    );
-  }
-}
-
-export default DomainsTable;
-
-
 const resp = {
   "data": [
     {
@@ -403,3 +324,71 @@ const resp = {
     "last": "http://sm.qa.cww.comodo.od.ua/domains?page%5Bnumber%5D=1&page%5Bsize%5D=50"
   }
 }
+
+let newData = [];
+
+resp.data.map((item, index) => {
+  newData.push({
+    key: index,
+    domain: item.attributes.name,
+    malware_agent: item.attributes.is_verified ? 'yes' : 'no',
+    ftp_credentials: item.attributes.is_verified ? 'yes' : 'no',
+    actions: 'action type'
+  })
+});
+
+console.log(newData)
+
+
+
+class DomainsTable extends Component {
+  state = {
+    sortedInfo: null,
+  };
+
+  handleChange = (pagination, filters, sorter) => {
+    console.log('Various parameters', pagination, filters, sorter);
+    this.setState({
+      sortedInfo: sorter,
+    });
+  }
+
+  render() {
+    let { sortedInfo } = this.state;
+    sortedInfo = sortedInfo || {};
+
+    const columns = [{
+      title: 'Domain',
+      dataIndex: 'domain',
+      key: 'domain',
+      sorter: (a, b) => a.domain.length - b.domain.length,
+      sortOrder: sortedInfo.columnKey === 'domain' && sortedInfo.order,
+    }, {
+      title: 'Malware Agent',
+      dataIndex: 'malware_agent',
+      key: 'malware_agent',
+      sorter: (a, b) => a.malware_agent - b.malware_agent,
+      sortOrder: sortedInfo.columnKey === 'malware_agent' && sortedInfo.order,
+    }, {
+      title: 'FTP Credentials',
+      dataIndex: 'ftp_credentials',
+      key: 'ftp_credentials',
+      sorter: (a, b) => a.ftp_credentials.length - b.ftp_credentials.length,
+      sortOrder: sortedInfo.columnKey === 'ftp_credentials' && sortedInfo.order,
+    }, {
+      title: 'Actions',
+      dataIndex: 'actions',
+      key: 'actions',
+      sorter: (a, b) => a.actions.length - b.actions.length,
+      sortOrder: sortedInfo.columnKey === 'actions' && sortedInfo.order,
+    }];
+
+    return (
+      <div>
+        <Table columns={columns} dataSource={newData} onChange={this.handleChange} />
+      </div>
+    );
+  }
+}
+
+export default DomainsTable;
