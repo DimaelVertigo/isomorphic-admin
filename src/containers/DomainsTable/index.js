@@ -327,7 +327,7 @@ const resp = {
 
 let newData = [];
 
-resp.data.map((item, index) => {
+resp.data.map((item, index) => (
   newData.push({
     key: index,
     domain: item.attributes.name,
@@ -335,11 +335,9 @@ resp.data.map((item, index) => {
     ftp_credentials: item.attributes.is_verified ? 'yes' : 'no',
     actions: 'action type'
   })
-});
+));
 
 console.log(newData)
-
-
 
 class DomainsTable extends Component {
   state = {
@@ -351,6 +349,12 @@ class DomainsTable extends Component {
     this.setState({
       sortedInfo: sorter,
     });
+  }
+
+  fetch = () => resp;
+
+  componentDidMount() {
+    this.fetch();
   }
 
   render() {
